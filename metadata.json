@@ -1,0 +1,6 @@
+{
+  "name": "Defense Briefing Chart Studio",
+  "description": "Generate and export 1080p animated military and defense-procurement bar charts client-side via Remotion and WebCodecs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
