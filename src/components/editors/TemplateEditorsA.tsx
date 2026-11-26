@@ -15,7 +15,8 @@ import {
   type KillChainNode,
   type SideBySideConfig,
 } from '../../types/chart';
-import { clampPercent, splitExcerptBySubstring } from '../../utils/chartMath';
+import { splitExcerptBySubstring } from '../../utils/chartMath';
+import { NumericInput } from '../NumericInput';
 
 const INPUT_CLASS =
   'w-full px-3 py-2 text-sm bg-[#0B0F17] text-[#F8FAFC] placeholder-[#475569] border border-[#1E293B] rounded-md focus:outline-none focus:border-[#3B82F6] disabled:opacity-50 disabled:cursor-not-allowed';
@@ -516,18 +517,15 @@ export const HardwareCutawayEditor: React.FC<{
                 <label htmlFor={`pin-x-${pin.id}`} className="block text-[11px] text-[#94A3B8] mb-1">
                   X %
                 </label>
-                <input
+                <NumericInput
                   id={`pin-x-${pin.id}`}
-                  type="number"
                   min={0}
                   max={100}
+                  step={0.5}
+                  fallbackValue={50}
                   disabled={disabled}
                   value={pin.xPercent}
-                  onChange={(e) =>
-                    updatePin(pin.id, {
-                      xPercent: clampPercent(Number(e.target.value), 5, 95),
-                    })
-                  }
+                  onCommit={(val) => updatePin(pin.id, { xPercent: val })}
                   className={`${COMPACT_INPUT_CLASS} font-mono tabular-nums`}
                 />
               </div>
@@ -535,18 +533,15 @@ export const HardwareCutawayEditor: React.FC<{
                 <label htmlFor={`pin-y-${pin.id}`} className="block text-[11px] text-[#94A3B8] mb-1">
                   Y %
                 </label>
-                <input
+                <NumericInput
                   id={`pin-y-${pin.id}`}
-                  type="number"
                   min={0}
                   max={100}
+                  step={0.5}
+                  fallbackValue={50}
                   disabled={disabled}
                   value={pin.yPercent}
-                  onChange={(e) =>
-                    updatePin(pin.id, {
-                      yPercent: clampPercent(Number(e.target.value), 8, 92),
-                    })
-                  }
+                  onCommit={(val) => updatePin(pin.id, { yPercent: val })}
                   className={`${COMPACT_INPUT_CLASS} font-mono tabular-nums`}
                 />
               </div>

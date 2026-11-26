@@ -152,11 +152,11 @@ export const HardwareCutawayTemplate: React.FC<HardwareCutawayConfig> = ({
                 config: { damping: 24, stiffness: 90, mass: 0.8 },
               });
 
-              const px = (clampPercent(pin.xPercent, 5, 95) / 100) * STAGE_W;
-              const py = (clampPercent(pin.yPercent, 8, 92) / 100) * STAGE_H;
+              const px = (clampPercent(pin.xPercent, 0, 100) / 100) * STAGE_W;
+              const py = (clampPercent(pin.yPercent, 0, 100) / 100) * STAGE_H;
 
               const dir = pin.direction === 'left' ? -1 : 1;
-              const elbowX = clampPercent(pin.xPercent + dir * 6, 4, 96) / 100 * STAGE_W;
+              const elbowX = (clampPercent(pin.xPercent + dir * 6, 2, 98) / 100) * STAGE_W;
               const elbowY = py > STAGE_H * 0.5 ? py - 56 : py + 56;
               const endX =
                 dir === -1
@@ -204,9 +204,9 @@ export const HardwareCutawayTemplate: React.FC<HardwareCutawayConfig> = ({
               config: { damping: 24, stiffness: 95, mass: 0.8 },
             });
 
-            const py = (clampPercent(pin.yPercent, 8, 92) / 100) * STAGE_H;
+            const py = (clampPercent(pin.yPercent, 0, 100) / 100) * STAGE_H;
             const dir = pin.direction === 'left' ? -1 : 1;
-            const elbowX = (clampPercent(pin.xPercent + dir * 6, 4, 96) / 100) * STAGE_W;
+            const elbowX = (clampPercent(pin.xPercent + dir * 6, 2, 98) / 100) * STAGE_W;
             const elbowY = py > STAGE_H * 0.5 ? py - 56 : py + 56;
             const endX =
               dir === -1

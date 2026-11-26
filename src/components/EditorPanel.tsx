@@ -8,7 +8,8 @@ import {
   type BroadcastStudioState,
   type VisualMode,
 } from '../types/chart';
-import { clampDurationSeconds, secondsToFrames } from '../utils/chartMath';
+import { secondsToFrames } from '../utils/chartMath';
+import { NumericInput } from './NumericInput';
 import { BarChartEditor } from './editors/BarChartEditor';
 import {
   DocumentExcerptEditor,
@@ -102,20 +103,16 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                 {totalFrames}f
               </span>
             </div>
-            <input
+            <NumericInput
               id="chart-duration"
-              type="number"
               min={MIN_DURATION_SECONDS}
               max={MAX_DURATION_SECONDS}
               step={1}
+              integer
+              fallbackValue={8}
               disabled={disabled}
               value={state.durationSeconds}
-              onChange={(e) => {
-                const parsed = Number(e.target.value);
-                if (!Number.isNaN(parsed)) {
-                  onDurationChange(clampDurationSeconds(parsed));
-                }
-              }}
+              onCommit={onDurationChange}
               className="w-full px-3 py-2 text-sm font-mono tabular-nums bg-[#0B0F17] text-[#F8FAFC] border border-[#1E293B] rounded-md focus:outline-none focus:border-[#3B82F6] disabled:opacity-50 disabled:cursor-not-allowed"
             />
           </div>

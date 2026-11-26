@@ -185,8 +185,8 @@ export type BroadcastStudioState = {
 export const COMPOSITION_WIDTH = 1920;
 export const COMPOSITION_HEIGHT = 1080;
 export const COMPOSITION_FPS = 30;
-export const MIN_DURATION_SECONDS = 3;
-export const MAX_DURATION_SECONDS = 30;
+export const MIN_DURATION_SECONDS = 1;
+export const MAX_DURATION_SECONDS = 60;
 
 export const BAR_COLOR_OPTIONS: readonly BarColorOption[] = [
   { label: 'Steel Blue', hex: '#3B82F6' },

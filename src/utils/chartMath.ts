@@ -176,6 +176,34 @@ export function clampPercent(value: number, min = 0, max = 100): number {
   return Math.min(max, Math.max(min, value));
 }
 
+export function resolveNumericInputOnBlur(
+  rawText: string,
+  options: {
+    min?: number;
+    max?: number;
+    integer?: boolean;
+    fallbackValue?: number;
+  } = {},
+): number {
+  const { min, max, integer = false, fallbackValue } = options;
+  const trimmed = rawText.trim();
+  let num = trimmed === '' ? Number.NaN : Number(trimmed);
+
+  if (!Number.isFinite(num)) {
+    num = fallbackValue ?? min ?? 0;
+  }
+  if (integer) {
+    num = Math.round(num);
+  }
+  if (min !== undefined && num < min) {
+    num = min;
+  }
+  if (max !== undefined && num > max) {
+    num = max;
+  }
+  return num;
+}
+
 export function validateChartForExport(config: ChartConfig): string | null {
   if (!config.title.trim()) {
     return 'Chart title is required before exporting.';

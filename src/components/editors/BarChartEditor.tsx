@@ -9,6 +9,7 @@ import {
   type VerificationStatus,
 } from '../../types/chart';
 import { reorderRows } from '../../utils/chartMath';
+import { NumericInput } from '../NumericInput';
 
 interface BarChartEditorProps {
   config: ChartConfig;
@@ -254,20 +255,14 @@ export const BarChartEditor: React.FC<BarChartEditorProps> = ({
                       >
                         Numeric Value
                       </label>
-                      <input
+                      <NumericInput
                         id={`row-value-${row.id}`}
-                        type="number"
                         min={0}
                         step="any"
+                        fallbackValue={0}
                         disabled={disabled}
                         value={Number.isFinite(row.value) ? row.value : 0}
-                        onChange={(e) => {
-                          const raw = e.target.value;
-                          const parsed = raw === '' ? 0 : Number(raw);
-                          if (!Number.isNaN(parsed) && parsed >= 0) {
-                            handleUpdateRow(row.id, { value: parsed });
-                          }
-                        }}
+                        onCommit={(val) => handleUpdateRow(row.id, { value: val })}
                         className="w-full px-2.5 py-1.5 text-sm font-mono tabular-nums bg-[#0F1520] text-[#F8FAFC] border border-[#1E293B] rounded focus:outline-none focus:border-[#3B82F6] disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                     </div>

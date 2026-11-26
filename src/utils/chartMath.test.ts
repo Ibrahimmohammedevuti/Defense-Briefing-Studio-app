@@ -12,6 +12,7 @@ import {
   formatNumericValue,
   getRowStaggerFrames,
   reorderRows,
+  resolveNumericInputOnBlur,
   secondsToFrames,
   splitExcerptBySubstring,
   validateChartForExport,
@@ -45,12 +46,41 @@ test('formatNumericValue and formatAnimatedValue format numbers with commas and 
   assert.equal(formatAnimatedValue(12.5, 0.5), '6.3');
 });
 
-test('clampDurationSeconds and secondsToFrames enforce valid bounds', () => {
+test('clampDurationSeconds and secondsToFrames enforce 1..60 second bounds', () => {
   assert.equal(clampDurationSeconds(8), 8);
-  assert.equal(clampDurationSeconds(1), 3);
-  assert.equal(clampDurationSeconds(99), 30);
+  assert.equal(clampDurationSeconds(0), 1);
+  assert.equal(clampDurationSeconds(1), 1);
+  assert.equal(clampDurationSeconds(60), 60);
+  assert.equal(clampDurationSeconds(99), 60);
   assert.equal(clampDurationSeconds(Number.NaN), 8);
   assert.equal(secondsToFrames(8, 30), 240);
+});
+
+test('resolveNumericInputOnBlur handles empty input, decimals, integers, and clamping cleanly', () => {
+  assert.equal(
+    resolveNumericInputOnBlur('', { min: 1, max: 60, integer: true, fallbackValue: 8 }),
+    8,
+  );
+  assert.equal(
+    resolveNumericInputOnBlur('0', { min: 1, max: 60, integer: true, fallbackValue: 8 }),
+    1,
+  );
+  assert.equal(
+    resolveNumericInputOnBlur('75', { min: 1, max: 60, integer: true, fallbackValue: 8 }),
+    60,
+  );
+  assert.equal(
+    resolveNumericInputOnBlur('42.5', { min: 0, max: 100, fallbackValue: 50 }),
+    42.5,
+  );
+  assert.equal(
+    resolveNumericInputOnBlur('120', { min: 0, max: 100, fallbackValue: 50 }),
+    100,
+  );
+  assert.equal(
+    resolveNumericInputOnBlur('', { min: 0, fallbackValue: 0 }),
+    0,
+  );
 });
 
 test('reorderRows moves items cleanly and handles out-of-bounds indices safely', () => {

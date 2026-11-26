@@ -15,6 +15,7 @@ import {
   type RangeUnit,
 } from '../../types/chart';
 import { reorderRows } from '../../utils/chartMath';
+import { NumericInput } from '../NumericInput';
 
 const INPUT_CLASS =
   'w-full px-3 py-2 text-sm bg-[#0B0F17] text-[#F8FAFC] placeholder-[#475569] border border-[#1E293B] rounded-md focus:outline-none focus:border-[#3B82F6] disabled:opacity-50 disabled:cursor-not-allowed';
@@ -437,19 +438,14 @@ export const RangeRingEditor: React.FC<{
           <label htmlFor="rr-max" className="block text-xs font-medium text-[#94A3B8] mb-1.5">
             Max Scale Distance
           </label>
-          <input
+          <NumericInput
             id="rr-max"
-            type="number"
             min={1}
             step="any"
+            fallbackValue={100}
             disabled={disabled}
             value={config.maxScaleDistance}
-            onChange={(e) => {
-              const parsed = Number(e.target.value);
-              if (!Number.isNaN(parsed) && parsed > 0) {
-                onChange({ ...config, maxScaleDistance: parsed });
-              }
-            }}
+            onCommit={(val) => onChange({ ...config, maxScaleDistance: val })}
             className={`${INPUT_CLASS} font-mono tabular-nums`}
           />
         </div>
@@ -512,19 +508,14 @@ export const RangeRingEditor: React.FC<{
                 <label htmlFor={`arc-dist-${arc.id}`} className="block text-[11px] text-[#94A3B8] mb-1">
                   Distance ({config.unit})
                 </label>
-                <input
+                <NumericInput
                   id={`arc-dist-${arc.id}`}
-                  type="number"
                   min={0}
                   step="any"
+                  fallbackValue={0}
                   disabled={disabled}
                   value={arc.distance}
-                  onChange={(e) => {
-                    const parsed = Number(e.target.value);
-                    if (!Number.isNaN(parsed) && parsed >= 0) {
-                      updateArc(arc.id, { distance: parsed });
-                    }
-                  }}
+                  onCommit={(val) => updateArc(arc.id, { distance: val })}
                   className={`${COMPACT_INPUT_CLASS} font-mono tabular-nums`}
                 />
               </div>
